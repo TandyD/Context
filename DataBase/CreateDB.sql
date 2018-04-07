@@ -1,4 +1,5 @@
 ﻿create database ContextDB;
+
 use ContextDB;
 
 create table Utenti(
@@ -10,11 +11,17 @@ create table Utenti(
 	dataNascita date,
 );
 
-create table PartecipantiVoti(
+create table Voti(
 	id int identity(1,1) not null primary key,
 	idUt int foreign key references Utenti not null,
-	idContext int foreign key references Context not null,
-	voti int,
+	idPartecipante int foreign key references Partecipante not null,
+	unique(idUt,idPartecipante)
+);
+
+create table Partecipante(
+	id int identity(1,1) not null primary key,
+	idUtente int foreign key references Utenti not null,
+	idContext int foreign key references Context not null
 );
 
 create table Context (
@@ -24,7 +31,7 @@ create table Context (
 	vincitore int foreign key references Utenti not null
 );
 
-create table Admin(
+create table Amministratore(
 	id int identity(1,1) not null primary key,
 	idUtente int foreign key references Utenti not null
 );
