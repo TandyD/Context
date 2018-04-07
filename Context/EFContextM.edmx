@@ -1,0 +1,394 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ContextDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Amministratore">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUtente" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Context">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="descrizone" Type="nvarchar" MaxLength="140" />
+          <Property Name="vincitore" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Partecipante">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUtente" Type="int" Nullable="false" />
+          <Property Name="idContext" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Utenti">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="passwd" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="cognome" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="dataNascita" Type="date" />
+        </EntityType>
+        <EntityType Name="Voti">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idUt" Type="int" Nullable="false" />
+          <Property Name="idPartecipante" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Amministr__idUte__36B12243">
+          <End Role="Utenti" Type="Self.Utenti" Multiplicity="1" />
+          <End Role="Amministratore" Type="Self.Amministratore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utenti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Amministratore">
+              <PropertyRef Name="idUtente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Context__vincito__2B3F6F97">
+          <End Role="Utenti" Type="Self.Utenti" Multiplicity="1" />
+          <End Role="Context" Type="Self.Context" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utenti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Context">
+              <PropertyRef Name="vincitore" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__idCon__2F10007B">
+          <End Role="Context" Type="Self.Context" Multiplicity="1" />
+          <End Role="Partecipante" Type="Self.Partecipante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Context">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Partecipante">
+              <PropertyRef Name="idContext" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__idUte__2E1BDC42">
+          <End Role="Utenti" Type="Self.Utenti" Multiplicity="1" />
+          <End Role="Partecipante" Type="Self.Partecipante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utenti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Partecipante">
+              <PropertyRef Name="idUtente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Voti__idPartecip__33D4B598">
+          <End Role="Partecipante" Type="Self.Partecipante" Multiplicity="1" />
+          <End Role="Voti" Type="Self.Voti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partecipante">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Voti">
+              <PropertyRef Name="idPartecipante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Voti__idUt__32E0915F">
+          <End Role="Utenti" Type="Self.Utenti" Multiplicity="1" />
+          <End Role="Voti" Type="Self.Voti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utenti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Voti">
+              <PropertyRef Name="idUt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ContextDBModelStoreContainer">
+          <EntitySet Name="Amministratore" EntityType="Self.Amministratore" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Context" EntityType="Self.Context" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Partecipante" EntityType="Self.Partecipante" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Utenti" EntityType="Self.Utenti" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Voti" EntityType="Self.Voti" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Amministr__idUte__36B12243" Association="Self.FK__Amministr__idUte__36B12243">
+            <End Role="Utenti" EntitySet="Utenti" />
+            <End Role="Amministratore" EntitySet="Amministratore" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Context__vincito__2B3F6F97" Association="Self.FK__Context__vincito__2B3F6F97">
+            <End Role="Utenti" EntitySet="Utenti" />
+            <End Role="Context" EntitySet="Context" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__idCon__2F10007B" Association="Self.FK__Partecipa__idCon__2F10007B">
+            <End Role="Context" EntitySet="Context" />
+            <End Role="Partecipante" EntitySet="Partecipante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__idUte__2E1BDC42" Association="Self.FK__Partecipa__idUte__2E1BDC42">
+            <End Role="Utenti" EntitySet="Utenti" />
+            <End Role="Partecipante" EntitySet="Partecipante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Voti__idPartecip__33D4B598" Association="Self.FK__Voti__idPartecip__33D4B598">
+            <End Role="Partecipante" EntitySet="Partecipante" />
+            <End Role="Voti" EntitySet="Voti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Voti__idUt__32E0915F" Association="Self.FK__Voti__idUt__32E0915F">
+            <End Role="Utenti" EntitySet="Utenti" />
+            <End Role="Voti" EntitySet="Voti" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ContextDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Amministratore">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUtente" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Utenti" Relationship="Self.FK__Amministr__idUte__36B12243" FromRole="Amministratore" ToRole="Utenti" />
+        </EntityType>
+        <EntityType Name="Context">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="descrizone" Type="String" MaxLength="140" FixedLength="false" Unicode="true" />
+          <Property Name="vincitore" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Utenti" Relationship="Self.FK__Context__vincito__2B3F6F97" FromRole="Context" ToRole="Utenti" />
+          <NavigationProperty Name="Partecipante" Relationship="Self.FK__Partecipa__idCon__2F10007B" FromRole="Context" ToRole="Partecipante" />
+        </EntityType>
+        <EntityType Name="Partecipante">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUtente" Type="Int32" Nullable="false" />
+          <Property Name="idContext" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Context" Relationship="Self.FK__Partecipa__idCon__2F10007B" FromRole="Partecipante" ToRole="Context" />
+          <NavigationProperty Name="Utenti" Relationship="Self.FK__Partecipa__idUte__2E1BDC42" FromRole="Partecipante" ToRole="Utenti" />
+          <NavigationProperty Name="Voti" Relationship="Self.FK__Voti__idPartecip__33D4B598" FromRole="Partecipante" ToRole="Voti" />
+        </EntityType>
+        <EntityType Name="Utenti">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="passwd" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="nome" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cognome" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dataNascita" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Amministratore" Relationship="Self.FK__Amministr__idUte__36B12243" FromRole="Utenti" ToRole="Amministratore" />
+          <NavigationProperty Name="Context" Relationship="Self.FK__Context__vincito__2B3F6F97" FromRole="Utenti" ToRole="Context" />
+          <NavigationProperty Name="Partecipante" Relationship="Self.FK__Partecipa__idUte__2E1BDC42" FromRole="Utenti" ToRole="Partecipante" />
+          <NavigationProperty Name="Voti" Relationship="Self.FK__Voti__idUt__32E0915F" FromRole="Utenti" ToRole="Voti" />
+        </EntityType>
+        <EntityType Name="Voti">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idUt" Type="Int32" Nullable="false" />
+          <Property Name="idPartecipante" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Partecipante" Relationship="Self.FK__Voti__idPartecip__33D4B598" FromRole="Voti" ToRole="Partecipante" />
+          <NavigationProperty Name="Utenti" Relationship="Self.FK__Voti__idUt__32E0915F" FromRole="Voti" ToRole="Utenti" />
+        </EntityType>
+        <Association Name="FK__Amministr__idUte__36B12243">
+          <End Role="Utenti" Type="Self.Utenti" Multiplicity="1" />
+          <End Role="Amministratore" Type="Self.Amministratore" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utenti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Amministratore">
+              <PropertyRef Name="idUtente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Context__vincito__2B3F6F97">
+          <End Role="Utenti" Type="Self.Utenti" Multiplicity="1" />
+          <End Role="Context" Type="Self.Context" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utenti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Context">
+              <PropertyRef Name="vincitore" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__idCon__2F10007B">
+          <End Role="Context" Type="Self.Context" Multiplicity="1" />
+          <End Role="Partecipante" Type="Self.Partecipante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Context">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Partecipante">
+              <PropertyRef Name="idContext" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Partecipa__idUte__2E1BDC42">
+          <End Role="Utenti" Type="Self.Utenti" Multiplicity="1" />
+          <End Role="Partecipante" Type="Self.Partecipante" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utenti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Partecipante">
+              <PropertyRef Name="idUtente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Voti__idPartecip__33D4B598">
+          <End Role="Partecipante" Type="Self.Partecipante" Multiplicity="1" />
+          <End Role="Voti" Type="Self.Voti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Partecipante">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Voti">
+              <PropertyRef Name="idPartecipante" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Voti__idUt__32E0915F">
+          <End Role="Utenti" Type="Self.Utenti" Multiplicity="1" />
+          <End Role="Voti" Type="Self.Voti" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Utenti">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Voti">
+              <PropertyRef Name="idUt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ContextDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Amministratore" EntityType="Self.Amministratore" />
+          <EntitySet Name="Context" EntityType="Self.Context" />
+          <EntitySet Name="Partecipante" EntityType="Self.Partecipante" />
+          <EntitySet Name="Utenti" EntityType="Self.Utenti" />
+          <EntitySet Name="Voti" EntityType="Self.Voti" />
+          <AssociationSet Name="FK__Amministr__idUte__36B12243" Association="Self.FK__Amministr__idUte__36B12243">
+            <End Role="Utenti" EntitySet="Utenti" />
+            <End Role="Amministratore" EntitySet="Amministratore" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Context__vincito__2B3F6F97" Association="Self.FK__Context__vincito__2B3F6F97">
+            <End Role="Utenti" EntitySet="Utenti" />
+            <End Role="Context" EntitySet="Context" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__idCon__2F10007B" Association="Self.FK__Partecipa__idCon__2F10007B">
+            <End Role="Context" EntitySet="Context" />
+            <End Role="Partecipante" EntitySet="Partecipante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Partecipa__idUte__2E1BDC42" Association="Self.FK__Partecipa__idUte__2E1BDC42">
+            <End Role="Utenti" EntitySet="Utenti" />
+            <End Role="Partecipante" EntitySet="Partecipante" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Voti__idPartecip__33D4B598" Association="Self.FK__Voti__idPartecip__33D4B598">
+            <End Role="Partecipante" EntitySet="Partecipante" />
+            <End Role="Voti" EntitySet="Voti" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Voti__idUt__32E0915F" Association="Self.FK__Voti__idUt__32E0915F">
+            <End Role="Utenti" EntitySet="Utenti" />
+            <End Role="Voti" EntitySet="Voti" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ContextDBModelStoreContainer" CdmEntityContainer="ContextDBEntities">
+          <EntitySetMapping Name="Amministratore">
+            <EntityTypeMapping TypeName="ContextDBModel.Amministratore">
+              <MappingFragment StoreEntitySet="Amministratore">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idUtente" ColumnName="idUtente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Context">
+            <EntityTypeMapping TypeName="ContextDBModel.Context">
+              <MappingFragment StoreEntitySet="Context">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="descrizone" ColumnName="descrizone" />
+                <ScalarProperty Name="vincitore" ColumnName="vincitore" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Partecipante">
+            <EntityTypeMapping TypeName="ContextDBModel.Partecipante">
+              <MappingFragment StoreEntitySet="Partecipante">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idUtente" ColumnName="idUtente" />
+                <ScalarProperty Name="idContext" ColumnName="idContext" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Utenti">
+            <EntityTypeMapping TypeName="ContextDBModel.Utenti">
+              <MappingFragment StoreEntitySet="Utenti">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="passwd" ColumnName="passwd" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="cognome" ColumnName="cognome" />
+                <ScalarProperty Name="dataNascita" ColumnName="dataNascita" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Voti">
+            <EntityTypeMapping TypeName="ContextDBModel.Voti">
+              <MappingFragment StoreEntitySet="Voti">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="idUt" ColumnName="idUt" />
+                <ScalarProperty Name="idPartecipante" ColumnName="idPartecipante" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Nessuno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
