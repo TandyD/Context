@@ -10,14 +10,23 @@ create table Utenti(
 	dataNascita date,
 );
 
-create table Partecipanti(
+create table PartecipantiVoti(
 	id int identity(1,1) not null primary key,
-	idUt int foreign key references Utenti,
-	idContext int foreign key references Context
+	idUt int foreign key references Utenti not null,
+	idContext int foreign key references Context not null,
+	voti int,
 );
 
 create table Context (
-	
+	id int identity(1,1) not null primary key,
+	nome nvarchar (30)not null,
+	descrizone nvarchar (140),
+	vincitore int foreign key references Utenti not null
+);
+
+create table Admin(
+	id int identity(1,1) not null primary key,
+	idUtente int foreign key references Utenti not null
 );
 
 
